@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аптека Beknazar</title>
+<style>
+* { box-sizing: border-box; font-family: "Segoe UI", Arial, sans-serif; }
+body { margin: 0; background: #f2f6f9; color: #333; }
+header { background: linear-gradient(135deg, #0aa66e, #067a52); color: white; padding: 25px 15px; text-align: center; }
+header h1 { margin: 0; font-size: 32px; }
+header p { margin-top: 8px; font-size: 16px; }
+nav { background: white; display: flex; justify-content: center; gap: 20px; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+nav a { text-decoration: none; color: #067a52; font-weight: 600; }
+nav a:hover { text-decoration: underline; }
+.container { max-width: 1200px; margin: auto; padding: 25px; }
+h2 { text-align: center; color: #067a52; margin-bottom: 25px; }
+.catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.card { background: white; border-radius: 14px; box-shadow: 0 6px 15px rgba(0,0,0,0.08); padding: 18px; transition: transform 0.2s; }
+.card:hover { transform: translateY(-5px); }
+.card img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; }
+.card h3 { margin: 8px 0; color: #067a52; }
+.card p { font-size: 14px; margin: 4px 0; }
+.btn { display: block; margin-top: 12px; text-align: center; background: #25d366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+.btn:hover { background: #1ebe5d; }
+.section { background: white; padding: 25px; border-radius: 14px; margin-top: 40px; box-shadow: 0 6px 15px rgba(0,0,0,0.08); }
+footer { background: #067a52; color: white; text-align: center; padding: 15px; margin-top: 40px; font-size: 14px; }
+#search { width: 100%; padding: 12px; margin: 20px 0; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+#load-more-btn { display: block; margin: 20px auto; padding: 12px 20px; border: none; border-radius: 5px; background: #067a52; color: white; font-size: 16px; cursor: pointer; }
+#load-more-btn:hover { background: #055a3c; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>Аптека Beknazar</h1>
+<p>Лицензированная аптека • Информация о лекарствах • Заказ через WhatsApp</p>
+</header>
+
+<nav>
+<a href="#catalog">Каталог</a>
+<a href="#about">О нас</a>
+<a href="#contact">Контакты</a>
+</nav>
+
+<div class="container">
+
+<section id="catalog">
+<h2>Каталог товаров</h2>
+<input type="text" id="search" placeholder="Поиск товара...">
+<div class="catalog" id="catalog-list"></div>
+<button id="load-more-btn">Показать ещё</button>
+</section>
+
+<section id="about" class="section">
+<h2>О нас</h2>
+<p>Аптека <b>Beknazar</b> работает в соответствии с законодательством РК. Все препараты сертифицированы.</p>
+</section>
+
+<section id="contact" class="section">
+<h2>Контакты</h2>
+<p>📞 Телефон: <b>+7 775 919 5105</b></p>
+<p>📱 WhatsApp: <a href="https://wa.me/77759195105" target="_blank">написать</a></p>
+<p>🕘 Время работы: ежедневно 09:00 – 20:00</p>
+</section>
+
+</div>
+
+<footer>
+⚠️ Информация на сайте носит справочный характер. Перед применением проконсультируйтесь с врачом.
+</footer>
+
+<script>
+const allMedicines = [
+{ name: "ВИТИС Воск ортодонтический 8 гр", manufacturer: "-", price: "3720тг" },
+{ name: "Каша Gipopo мультизлаковая яблоко вишня молочная", manufacturer: "-", price: "1550тг" },
+{ name: "Магнолия и диня крем для рук", manufacturer: "-", price: "1200тг" },
+{ name: "МЕМБЕК 10МЛ №14", manufacturer: "-", price: "7240тг" },
+{ name: "Он лайн гель для душа арбуз 400мл", manufacturer: "-", price: "1680тг" },
+{ name: "Он лайн крем для рук 190мл", manufacturer: "-", price: "1680тг" },
+{ name: "Он лайн шампунь 500мл арника", manufacturer: "-", price: "2000тг" },
+{ name: "Погремушка сказка ключи", manufacturer: "-", price: "1650тг" },
+{ name: "Поильник с трубочкой и ручкой для переноски", manufacturer: "-", price: "2500тг" },
+{ name: "СОСКА ПУСТЫШКА", manufacturer: "-", price: "980тг" },
+{ name: "ТЕРМОМЕТР ДЛЯ ВЛДЫ РЫБКА", manufacturer: "-", price: "465тг" },
+{ name: "Термометр ртутный", manufacturer: "-", price: "980тг" },
+{ name: "Тест полоска Глюкометр 582", manufacturer: "-", price: "6200тг" },
+{ name: "1821 Бусинка Молокоотсос ручной поршневой", manufacturer: "-", price: "9000тг" },
+{ name: "1886 Бусинка Прорезыватель силиконовой Слоник", manufacturer: "-", price: "1450тг" },
+{ name: "23100350-1 пластырь", manufacturer: "-", price: "2000тг" },
+{ name: "303 Круг на шею для купания с погремушкой 0-2 лет", manufacturer: "-", price: "2750тг" },
+{ name: "402 Бусинка 3+ пустышка цельносилик", manufacturer: "-", price: "650тг" },
+{ name: "405 Бусинка соска 6-18мес", manufacturer: "-", price: "700тг" },
+{ name: "408(0-3) (3-6) (6-18) Бусинка Пустышка соска силиконовая с прикусом", manufacturer: "-", price: "1160тг" },
+{ name: "409(0-3,3-6) Бусинка пустышка силикон скошенная с кольцом Веселые животные", manufacturer: "-", price: "1200тг" },
+{ name: "416(0-3,3-6) Бусинка пустышка Цветочек силикон с кольцом", manufacturer: "-", price: "800тг" },
+{ name: "423 Бусинка (6-18) Пустышка с колпачком соска силиконовая с прикусом", manufacturer: "-", price: "1280тг" },
+{ name: "631 Бусинка поильник 360мл", manufacturer: "-", price: "3000тг" },
+{ name: "9 МЕСЯЦЕВ ФОЛИЕВАЯ КИСЛОТА 0,4N30 ТАБЛ", manufacturer: "-", price: "1325тг" },
+{ name: "9 месяцев фолиевая кислота №30", manufacturer: "-", price: "1650тг" },
+{ name: "9 месяцев фолиевая кислота №30", manufacturer: "-", price: "1550тг" },
+{ name: "9 трав+масло черного тмина №10 фито-свеч", manufacturer: "-", price: "3500тг" },
+{ name: "911 Бадяга 100 мл, гель", manufacturer: "-", price: "650тг" },
+{ name: "911 Бадяга 100,0 гель от синяков и ушибов", manufacturer: "-", price: "700тг" },
+{ name: "911 Бадяга 100,0 гель от синяков и ушибов", manufacturer: "-", price: "990тг" },
+{ name: "911 Бишофит 100 мл, гель-бальзам, для суставов", manufacturer: "-", price: "1080тг" },
+// … сюда добавляй остальные товары из твоего списка
+];
+
+let shown = 0;
+const step = 10;
+
+function showMedicines(filter=""){
+  const container = document.getElementById("catalog-list");
+  if(shown===0) container.innerHTML="";
+
+  const filtered = allMedicines.filter(m => m.name.toLowerCase().includes(filter.toLowerCase()));
+
+  filtered.slice(shown, shown+step).forEach(m=>{
+    const card = document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      <img src="https://via.placeholder.com/400x300" alt="${m.name}">
+      <h3>${m.name}</h3>
+      <p>Производитель: ${m.manufacturer}</p>
+      <p>Цена: ${m.price}</p>
+      <a class="btn" href="https://wa.me/77759195105" target="_blank">Заказать в WhatsApp</a>
+    `;
+    container.appendChild(card);
+  });
+
+  shown += step;
+  const btn = document.getElementById("load-more-btn");
+  btn.style.display = (shown >= filtered.length) ? "none" : "block";
+}
+
+document.getElementById("search").addEventListener("input", e=>{
+  shown = 0;
+  showMedicines(e.target.value);
+});
+
+document.getElementById("load-more-btn").addEventListener("click", ()=>{
+  showMedicines(document.getElementById("search").value);
+});
+
+showMedicines();
+</script>
+
+</body>
+</html>
